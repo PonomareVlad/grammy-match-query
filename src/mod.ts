@@ -116,10 +116,11 @@ function buildPredicate(parts: string[]): Predicate {
 
         // Check L3: first check within the L2 value (may be array),
         // then fall back to checking the L1 object for the L3 property.
-        // This supports both standard queries (e.g. message:entities:url
-        // where type="url" is on entity objects) and runtime-only queries
-        // (e.g. :media:media_group_id where media_group_id is on the
-        // message itself, not on the photo/video sub-object).
+        // Standard queries like message:entities:url check type="url" on
+        // each entity object in the entities array. Runtime-only queries
+        // like :media:media_group_id expand media to photo/video at L2,
+        // but media_group_id exists on the message (L1), not inside the
+        // photo/video sub-object — the L1 fallback handles this case.
         const l2Match = testMaybeArray(
             l2Value as Record<string, unknown> | Record<string, unknown>[],
             (item) =>

@@ -3,12 +3,12 @@ import { Api, Composer, Context } from "./deps.deno.ts";
 import { runtimeQuery } from "./mod.ts";
 
 // deno-lint-ignore no-explicit-any
-const me = {} as any;
+const botInfo = {} as any;
 
 /** Creates a Context for testing. */
 // deno-lint-ignore no-explicit-any
 function createCtx(update: any): Context {
-    return new Context(update, new Api(""), me);
+    return new Context(update, new Api(""), botInfo);
 }
 
 /**
