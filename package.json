@@ -2,7 +2,7 @@
     "name": "grammy-match-query",
     "version": "0.0.0",
     "description": "Match Query Plugin for grammY",
-    "homepage": "https://github.com/PonomareVlad/grammy-runtime-queries",
+    "homepage": "https://github.com/PonomareVlad/grammy-match-query",
     "main": "./out/mod.js",
     "types": "./out/mod.d.ts",
     "type": "module",
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/PonomareVlad/grammy-runtime-queries.git"
+        "url": "git+https://github.com/PonomareVlad/grammy-match-query.git"
     },
     "exports": {
         ".": {
@@ -26,7 +26,7 @@
     "author": "PonomareVlad",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/PonomareVlad/grammy-runtime-queries/issues"
+        "url": "https://github.com/PonomareVlad/grammy-match-query/issues"
     },
     "peerDependencies": {
         "grammy": "^1.15.2"

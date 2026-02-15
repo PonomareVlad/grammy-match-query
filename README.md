@@ -23,13 +23,13 @@ type system would reject.
 ### Node.js
 
 ```bash
-npm install github:PonomareVlad/grammy-runtime-queries
+npm install github:PonomareVlad/grammy-match-query
 ```
 
 ### Deno
 
 ```typescript
-import { matchQuery } from "https://raw.githubusercontent.com/PonomareVlad/grammy-runtime-queries/main/src/mod.ts";
+import { matchQuery } from "https://raw.githubusercontent.com/PonomareVlad/grammy-match-query/main/src/mod.ts";
 ```
 
 ## Usage
