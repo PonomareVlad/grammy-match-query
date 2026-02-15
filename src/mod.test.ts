@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { Api, Composer, Context } from "./deps.deno.ts";
-import { runtimeQuery } from "./mod.ts";
+import { matchQuery } from "./mod.ts";
 
 // deno-lint-ignore no-explicit-any
 const botInfo = {} as any;
@@ -12,7 +12,7 @@ function createCtx(update: any): Context {
 }
 
 /**
- * Uses Composer.filter with a runtimeQuery predicate and runs
+ * Uses Composer.filter with a matchQuery predicate and runs
  * the middleware against the given update. Returns whether the
  * filter matched (i.e. the handler inside .filter was invoked).
  */
@@ -23,7 +23,7 @@ async function testFilter(
 ): Promise<boolean> {
     let matched = false;
     const c = new Composer<Context>();
-    c.filter(runtimeQuery(query), () => {
+    c.filter(matchQuery(query), () => {
         matched = true;
     });
     const ctx = createCtx(update);
@@ -34,7 +34,7 @@ async function testFilter(
 // --- :media_group_id (L2 query — the proper way) ---
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) matches photo with media_group_id",
+    "bot.filter(matchQuery(':media_group_id')) matches photo with media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -58,7 +58,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) matches video with media_group_id",
+    "bot.filter(matchQuery(':media_group_id')) matches video with media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -83,7 +83,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) matches document with media_group_id",
+    "bot.filter(matchQuery(':media_group_id')) matches document with media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -105,7 +105,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) matches channel_post with media_group_id",
+    "bot.filter(matchQuery(':media_group_id')) matches channel_post with media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -129,7 +129,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) skips message without media_group_id",
+    "bot.filter(matchQuery(':media_group_id')) skips message without media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -152,7 +152,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media_group_id')) skips text message",
+    "bot.filter(matchQuery(':media_group_id')) skips text message",
     async () => {
         assertEquals(
             await testFilter(":media_group_id", {
@@ -172,7 +172,7 @@ Deno.test(
 // --- :media:media_group_id (L3 query — restricts to photo/video only) ---
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) matches photo with media_group_id",
+    "bot.filter(matchQuery(':media:media_group_id')) matches photo with media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media:media_group_id", {
@@ -196,7 +196,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) skips photo without media_group_id",
+    "bot.filter(matchQuery(':media:media_group_id')) skips photo without media_group_id",
     async () => {
         assertEquals(
             await testFilter(":media:media_group_id", {
@@ -219,7 +219,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) skips text message",
+    "bot.filter(matchQuery(':media:media_group_id')) skips text message",
     async () => {
         assertEquals(
             await testFilter(":media:media_group_id", {
@@ -239,7 +239,7 @@ Deno.test(
 // --- Standard queries ---
 
 Deno.test(
-    "bot.filter(runtimeQuery('message')) matches message",
+    "bot.filter(matchQuery('message')) matches message",
     async () => {
         assertEquals(
             await testFilter("message", {
@@ -257,7 +257,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery('message')) skips callback_query",
+    "bot.filter(matchQuery('message')) skips callback_query",
     async () => {
         assertEquals(
             await testFilter("message", {
@@ -274,7 +274,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery('message:photo')) matches photo message",
+    "bot.filter(matchQuery('message:photo')) matches photo message",
     async () => {
         assertEquals(
             await testFilter("message:photo", {
@@ -297,7 +297,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery('message:entities:url')) matches url entity",
+    "bot.filter(matchQuery('message:entities:url')) matches url entity",
     async () => {
         assertEquals(
             await testFilter("message:entities:url", {
@@ -316,7 +316,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':photo')) expands L1 shortcut",
+    "bot.filter(matchQuery(':photo')) expands L1 shortcut",
     async () => {
         assertEquals(
             await testFilter(":photo", {
@@ -357,7 +357,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery('edit:text')) expands to edited_message + edited_channel_post",
+    "bot.filter(matchQuery('edit:text')) expands to edited_message + edited_channel_post",
     async () => {
         assertEquals(
             await testFilter("edit:text", {
@@ -389,7 +389,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery('message:media')) expands L2 media shortcut",
+    "bot.filter(matchQuery('message:media')) expands L2 media shortcut",
     async () => {
         assertEquals(
             await testFilter("message:media", {
@@ -429,7 +429,7 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery([':photo', ':video'])) uses OR logic",
+    "bot.filter(matchQuery([':photo', ':video'])) uses OR logic",
     async () => {
         assertEquals(
             await testFilter([":photo", ":video"], {
@@ -483,10 +483,10 @@ Deno.test(
     },
 );
 
-Deno.test("runtimeQuery with empty query throws", () => {
+Deno.test("matchQuery with empty query throws", () => {
     assertThrows(
         () => {
-            const pred = runtimeQuery("");
+            const pred = matchQuery("");
             pred(createCtx({}));
         },
         Error,

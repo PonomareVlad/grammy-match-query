@@ -1,7 +1,7 @@
 {
-    "name": "grammy-runtime-queries",
+    "name": "grammy-match-query",
     "version": "0.0.0",
-    "description": "Runtime Filter Queries Plugin for grammY",
+    "description": "Match Query Plugin for grammY",
     "homepage": "https://github.com/PonomareVlad/grammy-runtime-queries",
     "main": "./out/mod.js",
     "types": "./out/mod.d.ts",
@@ -38,7 +38,7 @@
         "grammY",
         "Telegram bot framework",
         "plugin",
-        "runtime query",
+        "match query",
         "filter query"
     ]
 }

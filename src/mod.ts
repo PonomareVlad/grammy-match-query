@@ -1,5 +1,5 @@
 /**
- * grammY Runtime Queries Plugin
+ * grammY Match Query Plugin
  *
  * Interprets filter queries like grammY does, but supports any possible
  * combinations via runtime property checking — including queries that
@@ -7,8 +7,8 @@
  *
  * @example
  * ```ts
- * import { runtimeQuery } from 'grammy-runtime-queries'
- * bot.filter(runtimeQuery(':media_group_id'), ctx => {
+ * import { matchQuery } from 'grammy-match-query'
+ * bot.filter(matchQuery(':media_group_id'), ctx => {
  *   console.log('Media group')
  * })
  * ```
@@ -166,20 +166,20 @@ function compile(paths: string[][]): Predicate {
  *
  * @example
  * ```ts
- * import { runtimeQuery } from 'grammy-runtime-queries'
+ * import { matchQuery } from 'grammy-match-query'
  *
  * // Single query — any message/channel_post with media_group_id
- * bot.filter(runtimeQuery(':media_group_id'), ctx => {
+ * bot.filter(matchQuery(':media_group_id'), ctx => {
  *   console.log('Media group')
  * })
  *
  * // Multiple queries (OR logic)
- * bot.filter(runtimeQuery([':photo', ':video']), ctx => {
+ * bot.filter(matchQuery([':photo', ':video']), ctx => {
  *   console.log('Photo or video')
  * })
  * ```
  */
-export function runtimeQuery(
+export function matchQuery(
     query: string | string[],
 ): (ctx: Context) => boolean {
     const queries = Array.isArray(query) ? query : [query];
