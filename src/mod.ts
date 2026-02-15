@@ -14,6 +14,8 @@
  * ```
  */
 
+import { Context } from "./deps.deno.ts";
+
 // L1 shortcuts: map shortcut names to L1 update types
 const L1_SHORTCUTS: Record<string, readonly string[]> = {
     "": ["message", "channel_post"],
@@ -167,9 +169,10 @@ function compile(paths: string[][]): Predicate {
  */
 export function runtimeQuery(
     query: string | string[],
-): (ctx: { update: Record<string, unknown> }) => boolean {
+): (ctx: Context) => boolean {
     const queries = Array.isArray(query) ? query : [query];
     const allPaths = queries.flatMap((q) => expand(parse(q)));
     const predicate = compile(allPaths);
-    return (ctx) => predicate(ctx.update);
+    // deno-lint-ignore no-explicit-any
+    return (ctx) => predicate(ctx.update as any);
 }

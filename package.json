@@ -1,37 +1,44 @@
 {
     "name": "grammy-runtime-queries",
-    "version": "1.0.0",
-    "description": "grammY plugin for runtime filter queries with support for any property combinations",
-    "homepage": "https://grammy.dev/plugins/MYPLUGIN",
+    "version": "0.0.0",
+    "description": "Runtime Filter Queries Plugin for grammY",
+    "homepage": "https://github.com/PonomareVlad/grammy-runtime-queries",
     "main": "./out/mod.js",
-    "type": "commonjs",
+    "types": "./out/mod.d.ts",
+    "type": "module",
     "scripts": {
+        "prepare": "npm run build",
         "build": "deno2node tsconfig.json"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Amir-Zouerami/plugin-template.git"
+        "url": "git+https://github.com/PonomareVlad/grammy-runtime-queries.git"
     },
     "exports": {
-        ".": "./out/mod.js"
+        ".": {
+            "types": "./out/mod.d.ts",
+            "default": "./out/mod.js"
+        }
     },
     "files": [
         "out/"
     ],
-    "author": "Amir Zouerami",
+    "author": "PonomareVlad",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Amir-Zouerami/plugin-template/issues"
+        "url": "https://github.com/PonomareVlad/grammy-runtime-queries/issues"
     },
     "peerDependencies": {
-        "grammy": "^1.5.1"
+        "grammy": "^1.15.2"
     },
     "devDependencies": {
-        "deno2node": "~1.0.0"
+        "deno2node": "^1.3.0"
     },
     "keywords": [
         "grammY",
         "Telegram bot framework",
-        "plugin"
+        "plugin",
+        "runtime query",
+        "filter query"
     ]
 }
