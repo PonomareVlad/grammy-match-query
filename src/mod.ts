@@ -115,7 +115,7 @@ function buildPredicate(parts: string[]): Predicate {
         return testMaybeArray(
             l2Value as Record<string, unknown> | Record<string, unknown>[],
             (item) =>
-                item[l3] !== undefined && item[l3] !== null ||
+                (item[l3] !== undefined && item[l3] !== null) ||
                 (item as Record<string, unknown>).type === l3,
         );
     };
