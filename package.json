@@ -1,37 +1,44 @@
 {
-    "name": "@grammyjs/plugin-template",
-    "version": "1.0.0",
-    "description": "A Simple Plugin Template For grammY",
-    "homepage": "https://grammy.dev/plugins/MYPLUGIN",
+    "name": "grammy-match-query",
+    "version": "0.0.0",
+    "description": "Match Query Plugin for grammY",
+    "homepage": "https://github.com/PonomareVlad/grammy-match-query",
     "main": "./out/mod.js",
-    "type": "commonjs",
+    "types": "./out/mod.d.ts",
+    "type": "module",
     "scripts": {
+        "prepare": "npm run build",
         "build": "deno2node tsconfig.json"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Amir-Zouerami/plugin-template.git"
+        "url": "git+https://github.com/PonomareVlad/grammy-match-query.git"
     },
     "exports": {
-        ".": "./out/mod.js"
+        ".": {
+            "types": "./out/mod.d.ts",
+            "default": "./out/mod.js"
+        }
     },
     "files": [
         "out/"
     ],
-    "author": "Amir Zouerami",
+    "author": "PonomareVlad",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Amir-Zouerami/plugin-template/issues"
+        "url": "https://github.com/PonomareVlad/grammy-match-query/issues"
     },
     "peerDependencies": {
-        "grammy": "^1.5.1"
+        "grammy": "^1.15.2"
     },
     "devDependencies": {
-        "deno2node": "~1.0.0"
+        "deno2node": "^1.3.0"
     },
     "keywords": [
         "grammY",
         "Telegram bot framework",
-        "plugin"
+        "plugin",
+        "match query",
+        "filter query"
     ]
 }

@@ -8,12 +8,12 @@
         "rootDir": "./src/",
         "strict": true,
         "declaration": true,
-        "module": "commonjs",
+        "module": "es2022",
+        "moduleResolution": "node",
         "outDir": "./out/",
         "skipLibCheck": true,
-        "target": "es2019"
+        "target": "es2022"
     },
-    "include": [
-        "src/"
-    ]
+    "include": ["src/"],
+    "exclude": ["src/*.test.ts"]
 }
