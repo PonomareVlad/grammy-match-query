@@ -14,7 +14,7 @@ type system would reject.
 - **L2 shortcuts** — `""` expands to `entities` + `caption_entities`; `media`
   expands to `photo` + `video`; `file` expands to all file types.
 - **Unrestricted queries** — no static validation, so any property path works
-  at runtime (e.g. `:media:media_group_id`).
+  at runtime (e.g. `:media_group_id`).
 - **Multiple queries** — pass an array of queries for OR logic.
 - **Compatible** — returns a predicate for `bot.filter()`.
 
@@ -40,9 +40,14 @@ import { runtimeQuery } from "grammy-runtime-queries";
 
 const bot = new Bot("<your-bot-token>");
 
-// Filter by an unsupported query — media with media_group_id
-bot.filter(runtimeQuery(":media:media_group_id"), (ctx) => {
+// Filter by an unsupported query — messages with media_group_id
+bot.filter(runtimeQuery(":media_group_id"), (ctx) => {
     console.log("Media group received");
+});
+
+// Restrict to photo/video only (L3 checks L1 object for the property)
+bot.filter(runtimeQuery(":media:media_group_id"), (ctx) => {
+    console.log("Photo/video media group");
 });
 
 // Standard queries work too
@@ -73,18 +78,19 @@ bot.start();
 Queries use the same colon-separated format as grammY's
 [filter queries](https://grammy.dev/guide/filter-queries):
 
-| Query                   | Description                              |
-| ----------------------- | ---------------------------------------- |
-| `message`               | Any message update                       |
-| `message:photo`         | Message with a photo                     |
-| `message:entities:url`  | Message with a URL entity                |
-| `:photo`                | Photo in message or channel post         |
-| `msg:photo`             | Same as above                            |
-| `edit:text`             | Edited text message or channel post      |
-| `message:media`         | Message with photo or video              |
-| `message:file`          | Message with any file type               |
-| `message::url`          | URL in entities or caption_entities      |
-| `:media:media_group_id` | Media with media_group_id (runtime-only) |
+| Query                   | Description                         |
+| ----------------------- | ----------------------------------- |
+| `message`               | Any message update                  |
+| `message:photo`         | Message with a photo                |
+| `message:entities:url`  | Message with a URL entity           |
+| `:photo`                | Photo in message or channel post    |
+| `msg:photo`             | Same as above                       |
+| `edit:text`             | Edited text message or channel post |
+| `message:media`         | Message with photo or video         |
+| `message:file`          | Message with any file type          |
+| `message::url`          | URL in entities or caption_entities |
+| `:media_group_id`       | Any message with media_group_id     |
+| `:media:media_group_id` | Photo/video with media_group_id     |
 
 ## How It Works
 

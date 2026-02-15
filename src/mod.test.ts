@@ -31,11 +31,13 @@ async function testFilter(
     return matched;
 }
 
+// --- :media_group_id (L2 query — the proper way) ---
+
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) matches photo with media_group_id",
+    "bot.filter(runtimeQuery(':media_group_id')) matches photo with media_group_id",
     async () => {
         assertEquals(
-            await testFilter(":media:media_group_id", {
+            await testFilter(":media_group_id", {
                 update_id: 1,
                 message: {
                     message_id: 1,
@@ -56,10 +58,10 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) matches video with media_group_id",
+    "bot.filter(runtimeQuery(':media_group_id')) matches video with media_group_id",
     async () => {
         assertEquals(
-            await testFilter(":media:media_group_id", {
+            await testFilter(":media_group_id", {
                 update_id: 1,
                 message: {
                     message_id: 1,
@@ -81,10 +83,32 @@ Deno.test(
 );
 
 Deno.test(
-    "bot.filter(runtimeQuery(':media:media_group_id')) matches channel_post photo with media_group_id",
+    "bot.filter(runtimeQuery(':media_group_id')) matches document with media_group_id",
     async () => {
         assertEquals(
-            await testFilter(":media:media_group_id", {
+            await testFilter(":media_group_id", {
+                update_id: 1,
+                message: {
+                    message_id: 1,
+                    chat: { id: 1, type: "private" },
+                    date: 0,
+                    document: {
+                        file_id: "a",
+                        file_unique_id: "b",
+                    },
+                    media_group_id: "mg3",
+                },
+            }),
+            true,
+        );
+    },
+);
+
+Deno.test(
+    "bot.filter(runtimeQuery(':media_group_id')) matches channel_post with media_group_id",
+    async () => {
+        assertEquals(
+            await testFilter(":media_group_id", {
                 update_id: 1,
                 channel_post: {
                     message_id: 1,
@@ -96,7 +120,74 @@ Deno.test(
                         width: 1,
                         height: 1,
                     }],
-                    media_group_id: "mg3",
+                    media_group_id: "mg4",
+                },
+            }),
+            true,
+        );
+    },
+);
+
+Deno.test(
+    "bot.filter(runtimeQuery(':media_group_id')) skips message without media_group_id",
+    async () => {
+        assertEquals(
+            await testFilter(":media_group_id", {
+                update_id: 1,
+                message: {
+                    message_id: 1,
+                    chat: { id: 1, type: "private" },
+                    date: 0,
+                    photo: [{
+                        file_id: "a",
+                        file_unique_id: "b",
+                        width: 1,
+                        height: 1,
+                    }],
+                },
+            }),
+            false,
+        );
+    },
+);
+
+Deno.test(
+    "bot.filter(runtimeQuery(':media_group_id')) skips text message",
+    async () => {
+        assertEquals(
+            await testFilter(":media_group_id", {
+                update_id: 1,
+                message: {
+                    message_id: 1,
+                    chat: { id: 1, type: "private" },
+                    date: 0,
+                    text: "hello",
+                },
+            }),
+            false,
+        );
+    },
+);
+
+// --- :media:media_group_id (L3 query — restricts to photo/video only) ---
+
+Deno.test(
+    "bot.filter(runtimeQuery(':media:media_group_id')) matches photo with media_group_id",
+    async () => {
+        assertEquals(
+            await testFilter(":media:media_group_id", {
+                update_id: 1,
+                message: {
+                    message_id: 1,
+                    chat: { id: 1, type: "private" },
+                    date: 0,
+                    photo: [{
+                        file_id: "a",
+                        file_unique_id: "b",
+                        width: 1,
+                        height: 1,
+                    }],
+                    media_group_id: "mg1",
                 },
             }),
             true,
@@ -144,6 +235,8 @@ Deno.test(
         );
     },
 );
+
+// --- Standard queries ---
 
 Deno.test(
     "bot.filter(runtimeQuery('message')) matches message",

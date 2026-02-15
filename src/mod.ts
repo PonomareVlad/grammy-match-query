@@ -8,7 +8,7 @@
  * @example
  * ```ts
  * import { runtimeQuery } from 'grammy-runtime-queries'
- * bot.filter(runtimeQuery(':media:media_group_id'), ctx => {
+ * bot.filter(runtimeQuery(':media_group_id'), ctx => {
  *   console.log('Media group')
  * })
  * ```
@@ -150,7 +150,7 @@ function compile(paths: string[][]): Predicate {
  * queries against a static set of known keys. Instead, it interprets the
  * query at runtime, checking if the specified properties exist on the
  * update object. This allows using any property path, including ones
- * that grammY's type system would reject (e.g. `:media:media_group_id`).
+ * that grammY's type system would reject (e.g. `:media_group_id`).
  *
  * Supports:
  * - L1, L2, and L3 queries (e.g. `message`, `message:photo`, `message:entities:url`)
@@ -168,8 +168,8 @@ function compile(paths: string[][]): Predicate {
  * ```ts
  * import { runtimeQuery } from 'grammy-runtime-queries'
  *
- * // Single query
- * bot.filter(runtimeQuery(':media:media_group_id'), ctx => {
+ * // Single query — any message/channel_post with media_group_id
+ * bot.filter(runtimeQuery(':media_group_id'), ctx => {
  *   console.log('Media group')
  * })
  *
