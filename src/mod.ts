@@ -108,18 +108,29 @@ function buildPredicate(parts: string[]): Predicate {
         if (l2 === undefined) return true;
 
         // Check L2: the L2 property must exist on the L1 object
-        const l2Value = (l1Value as Record<string, unknown>)[l2];
+        const l1Obj = l1Value as Record<string, unknown>;
+        const l2Value = l1Obj[l2];
         if (l2Value == null) return false;
         // L2-only query: just check existence
         if (l3 === undefined) return true;
 
-        // Check L3: check sub-property on L2 value (may be array)
-        return testMaybeArray(
+        // Check L3: first check within the L2 value (may be array),
+        // then fall back to checking the L1 object for the L3 property.
+        // This supports both standard queries (e.g. message:entities:url
+        // where type="url" is on entity objects) and runtime-only queries
+        // (e.g. :media:media_group_id where media_group_id is on the
+        // message itself, not on the photo/video sub-object).
+        const l2Match = testMaybeArray(
             l2Value as Record<string, unknown> | Record<string, unknown>[],
             (item) =>
                 (item[l3] !== undefined && item[l3] !== null) ||
                 (item as Record<string, unknown>).type === l3,
         );
+        if (l2Match) return true;
+
+        // Fall back: check L3 property on the L1 object
+        const l3Value = l1Obj[l3];
+        return l3Value !== undefined && l3Value !== null;
     };
 }
 
