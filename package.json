@@ -1,6 +1,6 @@
 {
     "name": "grammy-match-query",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Match Query Plugin for grammY",
     "homepage": "https://github.com/PonomareVlad/grammy-match-query",
     "main": "./out/mod.js",
